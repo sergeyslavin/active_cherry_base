@@ -1,8 +1,8 @@
 <?php
 
-require_once 'config.php';
+require_once 'config/config.php';
 
-class ActionDataBase extends Config {
+class ActiveCherryBase extends Config {
     
     private $connection_to_db;
     private $table_name;

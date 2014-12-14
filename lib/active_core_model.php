@@ -1,8 +1,8 @@
 <?php
 
-require_once 'action_data_base.php';
+require_once 'active_cherry.php';
 
-class BaseModel extends ActionDataBase {
+class ActiveCoreModel extends ActiveCherryBase {
 
     public $instance_property = array();
     private $table_name;
