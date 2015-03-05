@@ -3,7 +3,7 @@
 require_once 'config/config.php';
 
 class ActiveCherryBase extends Config {
-    
+
     private $connection_to_db;
     private $table_name;
     private $select_db;
@@ -27,7 +27,7 @@ class ActiveCherryBase extends Config {
 
         $this->last_query = mysql_query($query_string);
         if(!$this->last_query) {
-            dir("Failed query ".mysql_error());
+            die("Failed query ".mysql_error());
         }
 
         return $this->last_query;
@@ -60,7 +60,7 @@ class ActiveCherryBase extends Config {
     public function all($instance) {
         $ret_query_array = array();
         $query = mysql_query("SELECT * FROM ".$this->table_name);
-        
+
         while($response_list = $this->get_assoc($query)) {
             foreach ($response_list as $key => $value) {
                 if(in_array($key, $this->child_model_property)) {
@@ -72,6 +72,22 @@ class ActiveCherryBase extends Config {
         }
 
         return $ret_query_array;
+    }
+
+    public function find_by($instance, $args) {
+      if(count($args) > 0) {
+        $query = $this->query("SELECT * FROM `".$this->table_name."` WHERE `".$args["field"]."`='".$args["value"]."' LIMIT 1");
+
+        $response_object = $this->get_assoc($query);
+
+        if(!empty($this->child_model_property)) {
+            foreach ($this->child_model_property as $name) {
+                $instance->{$name} = $response_object[$name];
+            }
+        }
+      }
+
+      return $instance;
     }
 
     public function debug($obj) {

@@ -4,6 +4,7 @@ require_once 'model/user.php';
 
 $user = new User();
 
-$result = $user->find(2);
+echo "<br />";
+$res = $user->find_by_name("Vasya");
 
-echo $result->name;
+$user->debug($res);
